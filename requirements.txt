@@ -5,6 +5,5 @@ jinja2==2.11.2
 markupsafe==1.1.1
 requests==2.25.1
 six==1.15.0
-sqlite==3.33.0
 terminado==0.9.1
 werkzeug==1.0.1
