@@ -2,8 +2,6 @@ flask==1.1.2
 gunicorn==20.1.0
 itsdangerous==1.1.0
 jinja2==2.11.2
-libxml2==2.9.10
-lxml==4.6.3
 markupsafe==1.1.1
 ncurses==6.2
 numpy==1.19.2
