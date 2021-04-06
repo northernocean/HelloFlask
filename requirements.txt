@@ -4,7 +4,6 @@ mccabe==0.6.1
 pycosat==0.6.3
 pyspark==3.0.1
 wrapt==1.12.1
-_libgcc_mutex==0.1
 argon2-cffi==20.1.0
 async_generator==1.10
 attrs==20.3.0
