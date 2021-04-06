@@ -9,7 +9,6 @@ async_generator==1.10
 attrs==20.3.0
 backcall==0.2.0
 beautifulsoup4==4.9.3
-blas==1.0
 bleach==3.2.1
 bs4==0.0.1
 ca-certificates==2020.12.5
@@ -87,7 +86,6 @@ pcre==8.44
 pexpect==4.8.0
 pickleshare==0.7.5
 pillow==8.0.1
-pip==20.3.3
 prometheus_client==0.9.0
 prompt-toolkit==3.0.8
 psycopg2==2.8.5
@@ -97,7 +95,6 @@ pygments==2.7.3
 pyparsing==2.4.7
 pyqt==5.9.2
 pyrsistent==0.17.3
-python==3.9.1
 python-dateutil==2.8.1
 python_abi==3.9
 pytz==2020.5
@@ -108,7 +105,6 @@ requests==2.25.1
 scipy==1.6.1
 selenium==3.141.0
 send2trash==1.5.0
-setuptools==51.0.0
 sip==4.19.13
 six==1.15.0
 soupsieve==2.2.1
