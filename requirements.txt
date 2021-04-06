@@ -4,3 +4,4 @@ mccabe==0.6.1
 pycosat==0.6.3
 pyspark==3.0.1
 wrapt==1.12.1
+gunicorn
