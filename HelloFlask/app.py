@@ -6,7 +6,7 @@ app = Flask(__name__)
 def get_connection():
     conn = None
     try:
-        conn = sqlite3.connect('resources/DAT.sqlite3')
+        conn = sqlite3.connect('DAT.sqlite3')
     except:
         print("Error connecting to sqlite")
     return conn
