@@ -1,5 +1,12 @@
+import os
 from flask import Flask, render_template
 import sqlite3
+
+try:
+    ENVIRONMENT = os.environ["RUNTIME_ENVIRONMENT"]
+except:
+    ENVIRONMENT = "Development"
+print(ENVIRONMENT)
 
 app = Flask(__name__)
 
