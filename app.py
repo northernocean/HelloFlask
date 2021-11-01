@@ -1,15 +1,5 @@
-import os
 from flask import Flask, render_template
-
-try:
-    ENVIRONMENT = os.environ["RUNTIME_ENVIRONMENT"]
-except:
-    ENVIRONMENT = "Development"
-
-if ENVIRONMENT == 'Production':
-    import dbaccess_sqlite as db
-else:
-    import dbaccess_sqlite as db
+import dbaccess as db
 
 app = Flask(__name__)
 
