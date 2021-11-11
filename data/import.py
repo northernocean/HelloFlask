@@ -5,7 +5,7 @@ from datetime import datetime
 
 def main():
     
-    import_method = 2
+    import_method = 1
 
     # -------------------------------------------------------------------
     # import with sqlite library - explicitly creating and inserting rows
@@ -27,7 +27,7 @@ def main():
                 );
             """) # checks to see if table exists and makes a fresh table.
 
-        with open('data/database.csv', "r") as f: # CSV file input
+        with open('data/database2.csv', "r") as f: # CSV file input
             reader = csv.reader(f, delimiter=',') # no header information with delimiter
             next(reader)
             for row in reader:
@@ -64,7 +64,7 @@ def main():
         # did not find infer_datetime_format=True to work correctly,
         # so importing the dates as strings and converting to
         # to dates use the pd.to_datetime method
-        df = pd.read_csv('data/database.csv', infer_datetime_format=False)
+        df = pd.read_csv('data/database2.csv', infer_datetime_format=False)
         df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%Y")
         df['Time'] = pd.to_datetime(df['Time'], format="%H:%M:%S")
         
