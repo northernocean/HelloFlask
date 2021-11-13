@@ -1,24 +1,24 @@
 import psycopg2
 import os
 
-db_url = None
+db_connection_string = None
 
 # DATABASE_URL is a standard config variable set at heroku when you attach a postgres db
 # the url at heroku will be in the form "postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE"
 
 if 'DATABASE_URL' in os.environ:
-    db_url = os.environ['DATABASE_URL']
+    db_connection_string = os.environ['DATABASE_URL']
 else:
     # or more elegantly, create a local DATABASE_URL environment variable
     # in which case you can omit the if/else and simply set the DB url to
     # the given value from your environment variable
-    db_url = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
+    db_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
 
 
 def test_connection():
     '''Attempts a DB connection with the default database'''
     try:
-        print ('\ntesting db connection to ' + db_url.split('@')[1])
+        print ('\ntesting db connection to ' + db_connection_string.split('@')[1])
         cn = get_connection()
         if cn is not None:
             print('connection succeeded!\n')
@@ -32,7 +32,7 @@ def test_connection():
 def get_connection():
     #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
     #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
-    cn = psycopg2.connect(db_url)
+    cn = psycopg2.connect(db_connection_string)
     return cn
 
 def get_earthquake_count_by_years():
