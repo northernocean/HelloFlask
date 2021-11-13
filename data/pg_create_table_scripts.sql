@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS public."DAT"
+(
+    "Date" date NOT NULL,
+    "Time" time without time zone NOT NULL,
+    "Latitude" real NOT NULL,
+    "Longitude" real NOT NULL,
+    "Type" character varying(100) NOT NULL,
+    "Depth" real NOT NULL,
+    "DepthError" real,
+    "DepthSeismicStations" integer,
+    "Magnitude" real NOT NULL,
+    "MagnitudeType" character varying(30),
+    "MagnitudeError" real,
+    "MagnitudeSeismicStations" integer,
+    "AzimuthalGap" real,
+    "HorizontalDistance" real,
+    "HorizontalError" real,
+    "RootMeanSquare" real,
+    "ID" character varying(30) NOT NULL,
+    "Source" character varying(30),
+    "LocationSource" character varying(30),
+    "MagnitudeSource" character varying(30),
+    "Status" character varying(30),
+    CONSTRAINT "DAT_pkey" PRIMARY KEY ("ID")
+);
