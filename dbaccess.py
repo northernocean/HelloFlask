@@ -1,5 +1,5 @@
-import psycopg2
 import os
+import sqlite3
 
 db_connection_string = None
 
@@ -12,13 +12,13 @@ else:
     # or more elegantly, create a local DATABASE_URL environment variable
     # in which case you can omit the if/else and simply set the DB url to
     # the given value from your environment variable
-    db_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
+    db_connection_string = 'data/DAT.sqlite3'
 
 
 def test_connection():
     '''Attempts a DB connection with the default database'''
     try:
-        print ('\ntesting db connection to ' + db_connection_string.split('@')[1])
+        print ('\ntesting db connection to ' + db_connection_string)
         cn = get_connection()
         if cn is not None:
             print('connection succeeded!\n')
@@ -28,37 +28,34 @@ def test_connection():
         if cn:
             cn.close()
 
-
 def get_connection():
-    #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
-    #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
-    cn = psycopg2.connect(db_connection_string)
-    return cn
+    conn = None
+    try:
+        conn = sqlite3.connect(db_connection_string)
+    except:
+        print("Error connecting to sqlite")
+    return conn
 
 def get_earthquake_count_by_years():
-    try:
-        cn = get_connection()
-        xs = []
-        ys = []
+    cn = get_connection()
+    xs = []
+    ys = []
+    if cn:
         cur = cn.cursor()
         cur.execute('''
         SELECT 
-            EXTRACT(YEAR FROM "Date") AS "Year",
+            strftime("%Y", "Date") AS "Year",
             COUNT("Date") AS "Total"
         FROM 
             earthquakes 
         GROUP BY 
-            EXTRACT(YEAR FROM "Date");
+            strftime("%Y", "Date");
         ''')
         rows = cur.fetchall()
         for row in rows:
-            # print(row)
+            print(row)
             xs.append(row[0])
             ys.append(row[1])        
-    except Exception as ex:
-        print(ex)
-    finally:
-        if cn:
-            cn.close()
-            print('connection closed')
+        cn.close() 
+    
     return xs, ys
