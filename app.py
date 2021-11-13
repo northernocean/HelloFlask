@@ -1,7 +1,12 @@
 from flask import Flask, render_template
 import dbaccess as db
-
+from dotenv import load_dotenv
+from time import sleep
+load_dotenv()
 app = Flask(__name__)
+
+sleep(1)
+db.test_connection()
 
 @app.route("/")
 def index():

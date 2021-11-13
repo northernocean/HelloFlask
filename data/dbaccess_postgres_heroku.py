@@ -15,11 +15,24 @@ else:
     db_url = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
 
 
+def test_connection():
+    '''Attempts a DB connection with the default database'''
+    try:
+        print ('\ntesting db connection to ' + db_url.split('@')[1])
+        cn = get_connection()
+        if cn is not None:
+            print('connection succeeded!\n')
+        else:
+            print('connection failed!\n')
+    finally:
+        if cn:
+            cn.close()
+
+
 def get_connection():
-    #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
-    #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
     cn = psycopg2.connect(db_url)
     return cn
+
 
 def get_earthquake_count_by_years():
     try:
@@ -29,12 +42,12 @@ def get_earthquake_count_by_years():
         cur = cn.cursor()
         cur.execute('''
         SELECT 
-            strftime("%Y", "Date") AS "Year",
+            EXTRACT(YEAR FROM "Date") AS "Year",
             COUNT("Date") AS "Total"
         FROM 
             earthquakes 
         GROUP BY 
-            strftime("%Y", "Date");
+            EXTRACT(YEAR FROM "Date");
         ''')
         rows = cur.fetchall()
         for row in rows:
@@ -46,4 +59,5 @@ def get_earthquake_count_by_years():
     finally:
         if cn:
             cn.close()
+            print('connection closed')
     return xs, ys
