@@ -2,6 +2,10 @@ import shutil
 import os
 from datetime import datetime
 
+# this is a utility script that can be run directly as a python
+# file for copying a given dbaccess file into the project root
+# as dbaccess.py
+
 # Setup
 root_dir = '/home/david/bootcamp/repos/HelloFlask'
 backup_current_dbaccess = True
