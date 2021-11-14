@@ -11,7 +11,8 @@ dbaccess_option = 3
 dbaccess_options = {
     1: 'postgres_heroku',
     2: 'sqlite',
-    3: 'github_content_csv'
+    3: 'github_content_csv',
+    4: 'github_content_json'
 }
 
 # Copy desired dbaccess file to root of directory. Optionally, backup the current one in use 
