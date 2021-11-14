@@ -4,7 +4,7 @@ import io
 import pandas as pd
 import numpy as np
 
-DATA_SOURCE = "csv remote file storage/pandas"
+DATA_SOURCE = "csv remote file storage"
 url = 'https://raw.githubusercontent.com/northernocean/HelloFlask/main/data/dat.csv'
 data_df = None
 
