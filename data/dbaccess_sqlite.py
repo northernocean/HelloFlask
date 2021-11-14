@@ -1,18 +1,8 @@
 import os
 import sqlite3
 
-db_connection_string = None
-
-# DATABASE_URL is a standard config variable set at heroku when you attach a postgres db
-# the url at heroku will be in the form "postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE"
-
-if 'DATABASE_URL' in os.environ:
-    db_connection_string = os.environ['DATABASE_URL']
-else:
-    # or more elegantly, create a local DATABASE_URL environment variable
-    # in which case you can omit the if/else and simply set the DB url to
-    # the given value from your environment variable
-    db_connection_string = 'data/DAT.sqlite3'
+DATA_SOURCE = "sqlite"
+db_connection_string = 'data/dat.sqlite3'
 
 
 def test_connection():

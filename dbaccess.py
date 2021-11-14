@@ -4,7 +4,8 @@ import io
 import pandas as pd
 import numpy as np
 
-url = 'https://raw.githubusercontent.com/northernocean/HelloFlask/main/data/dat.csv'
+DATA_SOURCE = "json remote file storage"
+url = 'https://raw.githubusercontent.com/northernocean/HelloFlask/main/data/dat.json'
 data_df = None
 
 # Notes:
@@ -18,7 +19,7 @@ def get_connection():
     global data_df
     if data_df is None:
         try:
-            data_df = pd.read_csv(url)
+            data_df = pd.read_json(url)
             data_df['Date'] = pd.to_datetime(data_df['Date'])
             data_df['Time'] = pd.to_datetime(data_df['Time'])
         except Exception as ex:
@@ -27,11 +28,12 @@ def get_connection():
 
 
 def test_connection():
+    print ('\ntesting db connection to remote json file storage')
     df = get_connection()
     if df is None:
-        return "Connection failed!"
+        print("Connection failed!")
     else:
-        return "Connection succeeded!"
+        print("Connection succeeded!")
 
 
 def get_earthquake_count_by_years():
@@ -43,26 +45,9 @@ def get_earthquake_count_by_years():
         df_filtered = df.groupby('Year')['ID'].count()
         xs = list(df_filtered.index)
         ys = list(df_filtered.values)
-        ys = [int(element) for element in ys] #convert numpy int dtypes to plain python ints to avoid json serialization errors
+        ys = [int(element) for element in ys] #convert numpy ints to plain python ints to avoid later json serialization errors in flask
     return xs, ys
 
-
-def in_memory_string_file():
-    # based on example from 
-    #     https://stackoverflow.com/questions/18897029/read-csv-file-from-url-into-python-3-x-csv-error-iterator-should-return-str
-    # Interesting approach but the pandas option is better since we will want to manipulate the data in a dataframe anyway... 
-    
-    response = requests.get(url)
-    csv_bytes = response.content
-
-    # write in-memory string file from bytes, decoded (utf-8)
-    str_file = io.StringIO(csv_bytes.decode('utf-8'), newline='\n')
-        
-    reader = csv.reader(str_file)
-    for row_list in reader:
-        print(row_list)
-
-    str_file.close()
 
 if __name__ == "__main__":
     test_connection()

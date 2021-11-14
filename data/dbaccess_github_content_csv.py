@@ -4,12 +4,14 @@ import io
 import pandas as pd
 import numpy as np
 
+DATA_SOURCE = "csv remote file storage/pandas"
 url = 'https://raw.githubusercontent.com/northernocean/HelloFlask/main/data/dat.csv'
 data_df = None
 
 # Notes:
 # The column for MagnitudeSeismicStations is stored as a float in this
 #     pandas dataframe, whereas it is a int in postgres/sqlite databases.
+
 
 def get_connection():
     '''for a csv data source we do not really "connect" to the datasource as would
@@ -27,11 +29,12 @@ def get_connection():
 
 
 def test_connection():
+    print ('\ntesting db connection to remote csv file storage')
     df = get_connection()
     if df is None:
-        return "Connection failed!"
+        print("Connection failed!")
     else:
-        return "Connection succeeded!"
+        print("Connection succeeded!")
 
 
 def get_earthquake_count_by_years():
