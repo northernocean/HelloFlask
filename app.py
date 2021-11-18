@@ -12,9 +12,8 @@ def index():
 
 @app.route("/api/earthquakes")
 def earthquakes():
-    return "it works"
+    return "it works!"
 
 if __name__ == "__main__":
     app.run()
-
 
