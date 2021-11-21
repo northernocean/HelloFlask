@@ -1,53 +1,67 @@
-import requests
-import csv
-import io
-import pandas as pd
-import numpy as np
+import psycopg2
+import os
 
-DATA_SOURCE = "json remote file storage"
-url = 'https://raw.githubusercontent.com/northernocean/HelloFlask/main/data/dat.json'
-data_df = None
+DATA_SOURCE = "postgres"
+db_connection_string = None
+local_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
 
-# Notes:
-# The column for MagnitudeSeismicStations is stored as a float in this
-#     pandas dataframe, whereas it is a int in postgres/sqlite databases.
+# DATABASE_URL is a standard config variable set at heroku when you attach a postgres db
+# the url at heroku will be in the form "postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE"
+
+if 'DATABASE_URL' in os.environ:
+    db_connection_string = os.environ['DATABASE_URL']
+else:
+    # or more elegantly, create a local DATABASE_URL environment variable
+    # in which case you can omit the if/else and simply set the DB url to
+    # the given value from your environment variable
+    db_connection_string = local_connection_string
+
 
 def get_connection():
-    '''for a csv data source we do not really "connect" to the datasource as would
-       happen with a database. Instead, we retrieve the data and hold it locally
-       in a pandas dataframe - which we can then treat as in-memory data source'''
-    global data_df
-    if data_df is None:
-        try:
-            data_df = pd.read_json(url)
-            data_df['Date'] = pd.to_datetime(data_df['Date'])
-            data_df['Time'] = pd.to_datetime(data_df['Time'])
-        except Exception as ex:
-            data_df = None
-    return data_df.copy(deep=True)
+    #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
+    #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
+    cn = psycopg2.connect(db_connection_string)
+    return cn
 
 
 def test_connection():
-    print ('\ntesting db connection to remote json file storage')
-    df = get_connection()
-    if df is None:
-        print("Connection failed!")
-    else:
-        print("Connection succeeded!")
+    '''Attempts a DB connection with the default database'''
+    try:
+        print ('\ntesting db connection to ' + db_connection_string.split('@')[1])
+        cn = get_connection()
+        if cn is not None:
+            print('connection succeeded!\n')
+        else:
+            print('connection failed!\n')
+    finally:
+        if cn:
+            cn.close()
 
 
 def get_earthquake_count_by_years():
-    xs = []
-    ys = []
-    df = get_connection()
-    if df is not None:
-        df['Year'] = df['Date'].dt.year
-        df_filtered = df.groupby('Year')['ID'].count()
-        xs = list(df_filtered.index)
-        ys = list(df_filtered.values)
-        ys = [int(element) for element in ys] #convert numpy ints to plain python ints to avoid later json serialization errors in flask
+    try:
+        cn = get_connection()
+        xs = []
+        ys = []
+        cur = cn.cursor()
+        cur.execute('''
+        SELECT 
+            EXTRACT(YEAR FROM "Date") AS "Year",
+            COUNT("Date") AS "Total"
+        FROM 
+            earthquakes 
+        GROUP BY 
+            EXTRACT(YEAR FROM "Date");
+        ''')
+        rows = cur.fetchall()
+        for row in rows:
+            # print(row)
+            xs.append(row[0])
+            ys.append(row[1])        
+    except Exception as ex:
+        print(ex)
+    finally:
+        if cn:
+            cn.close()
+            print('connection closed')
     return xs, ys
-
-
-if __name__ == "__main__":
-    test_connection()

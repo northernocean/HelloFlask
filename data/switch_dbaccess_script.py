@@ -12,7 +12,7 @@ from datetime import datetime
 # Setup
 root_dir = '/home/david/bootcamp/repos/HelloFlask'
 backup_current_dbaccess = True
-dbaccess_option = 4
+dbaccess_option = 1
 
 # dbaccess file options
 dbaccess_options = {
