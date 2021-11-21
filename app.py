@@ -19,7 +19,7 @@ def index():
 def earthquakes():
     xs, ys = db.get_earthquake_count_by_years()
     results_dict = {"xs": xs, "ys": ys}
-    return json.dumps(xs, ys)
+    return json.dumps(results_dict)
 
 if __name__ == "__main__":
     app.run()
