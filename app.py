@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from dotenv import load_dotenv
+import json
 import dbaccess as db
 
 load_dotenv()
@@ -16,7 +17,9 @@ def index():
 
 @app.route("/api/earthquakes")
 def earthquakes():
-    return "it works!"
+    xs, ys = db.get_earthquake_count_by_years()
+    results_dict = {"xs": xs, "ys": ys}
+    return json.dumps(xs, ys)
 
 if __name__ == "__main__":
     app.run()
