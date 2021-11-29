@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Plot</title>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    #data-source {
+      margin-left: 70px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="plot"></div>
+    <h6 id="data-source">data connected to: {{ data.data_source }}</h6>
+</body>
+
+<!-- Load static plot functions -->
+<script src="{{ url_for('static', filename='plot.js') }}"></script>
+
+<!--  Create javascript variable to reference to data from flask app -->
+<script type="text/javascript">
+  let data = '{{ data|tojson }}';
+</script>
+
+<!-- Go create charts -->
+<script type="text/javascript">
+  createPlot(data);
+</script>
+
+</html>
