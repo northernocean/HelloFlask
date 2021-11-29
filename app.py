@@ -5,21 +5,44 @@ import dbaccess as db
 import requests
 import os
 
+# -----
+# Setup
+# -----
+
+# load any additional environment variables defined in a .env file
 load_dotenv()
-app = Flask(__name__)
+
+IS_PRODUCTION_ENVIRONMENT = False
 
 if('DATABASE_URL') in os.environ:
+    # at Heroku there is a database url environment variable
+    # with connection information for postgres. Otherwise,
+    # assumption is we are running locally for development
+    IS_PRODUCTION_ENVIRONMENT = True
+
+if IS_PRODUCTION_ENVIRONMENT:
     API_BASE_URL = "https://hidden-stream-21468.herokuapp.com/"
 else:
     API_BASE_URL = "http://localhost:5000/"
 
+# ------------------
+# Start flask server
+# ------------------
+app = Flask(__name__)
+
+# ------
+# Routes
+# ------
 @app.route("/")
 def index():
     return render_template('index.html')
 
-@app.route("/earthquakes/p1")
-def earthquakes_p1():
-    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
+@app.route("/earthquakes/postgres/1")
+def earthquakes_postgres_1():
+    xs, ys = db.get_earthquake_count_by_years()
+    view_data = {"xs": xs, "ys": ys}
+    view_data["data_source"] = db.DATA_SOURCE
+    return render_template('earthquakes_postgres_1.html', view_data=view_data)
 
 @app.route("/earthquakes/p2")
 def earthquakes_p2():
