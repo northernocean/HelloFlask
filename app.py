@@ -3,11 +3,15 @@ from dotenv import load_dotenv
 import json
 import dbaccess as db
 import requests
+import os
 
 load_dotenv()
 app = Flask(__name__)
 
-api_url = "https://hidden-stream-21468.herokuapp.com/"
+if('DATABASE_URL') in os.environ:
+    API_BASE_URL = "https://hidden-stream-21468.herokuapp.com/"
+else:
+    API_BASE_URL = "http://localhost:5000/"
 
 @app.route("/")
 def index():
@@ -17,15 +21,18 @@ def index():
     xs = []
     ys = []
     resource = "api/earthquakes"
-    res = requests.get(api_url + resource)
+    res = requests.get(API_BASE_URL + resource)
     if res.status_code == 200:
         dict_temp = res.json()
         xs = dict_temp["xs"]
         ys = dict_temp["ys"]
     return render_template(
         'index.html',
-        data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + " (via api)"})
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + " (via api)"})
 
+@app.route("/earthquakes")
+def earthquakes_view():
+    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
 
 @app.route("/api/earthquakes")
 def earthquakes():

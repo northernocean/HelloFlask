@@ -1,6 +1,6 @@
 function createPlot(data) {
   
-  var data = JSON.parse(data);
+  var data = JSON.parse(view_data);
   let trace1 = {
     x: data.xs,
     y: data.ys,
