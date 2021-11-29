@@ -24,7 +24,7 @@ def index():
         ys = dict_temp["ys"]
     return render_template(
         'index.html',
-        data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + "(via api)"})
+        data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + " (via api)"})
 
 
 @app.route("/api/earthquakes")
