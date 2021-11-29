@@ -15,6 +15,18 @@ else:
 
 @app.route("/")
 def index():
+    return render_template('index.html')
+
+@app.route("/earthquakes/p1")
+def earthquakes_p1():
+    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
+
+@app.route("/earthquakes/p2")
+def earthquakes_p2():
+    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
+
+@app.route("/earthquakes/s1")
+def earthquakes_s1():
     # Calling the api as if it were an external api,
     # even though it is really in the same project.
     # Presumably this works (seems a little odd though),
@@ -29,10 +41,6 @@ def index():
     return render_template(
         'index.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + " (via api)"})
-
-@app.route("/earthquakes")
-def earthquakes_view():
-    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
 
 @app.route("/api/earthquakes")
 def earthquakes():

@@ -16,30 +16,67 @@
 </head>
 
 <body>
-  <div class="container">
-    <div id="plot"></div>
-    <h6 id="data-source">data connected to: {{ view_data.data_source }}</h6>
+  <div class="container mt-5 w-50">
+    <h2>Pages:</h2>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/p1">/earthquakes/p1</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Postgres</span>
+        </div>
+        <p>Route with a postgres database data source.</p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/p2">/earthquakes/p2</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Postgres / Api</span>
+        </div>
+        <p>Route with a postgres database datasource, but routed via an api route served from the same project. Mostly to show it works,
+          since if you have the database already accessible in the same project you do not really an api to access the data. Perhaps
+          this is nice if you intend to later move the database out of the project.
+        </p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/s1">/earthquakes/s1</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Sqlite</span>
+        </div>
+        <p>Route with a local sqlite (readonly) database. Per Heroku docs, sqlite is not recommended. Probably it is fine for read-only access.
+           This is a good option to get experience with a database data source but also keeping the project simple with a local sqlite
+           database file that you can use exactly the same in development locally as well as in the deployed application at heroku.
+        </p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/c1">/earthquakes/c1</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / local</span>
+        </div>
+        <p>Route using a csv file data source with a local csv file</p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/c2">/earthquakes/c2</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / fetch</span>
+        </div>
+        <p>Route using a csv file data source with an externally stored csv file (github or storage bucket)</p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/j1">/earthquakes/j1</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / local</span>
+        </div>
+        <p>Route using a json file data source with a local json file</p>
+      </li>
+      <li class="list-group-item">
+        <div class="m-1">
+          <a href="/earthquakes/j2">/earthquakes/j2</a>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / fetch</span>
+        </div>
+        <p>Route using a json file data source with an externally stored json file (github or storage bucket)</p>
+      </li>
+
+    
+    </ul>
 </body>
-
-<!-- plotly -->
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-<!-- Load local javascript code -->
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-
-<!-- Convert the data provided from flask (a string) to a json object 
-     and assign it to a javascript variable. Now we can use the data
-     in our code.
-     This is still unclear - are we passing real json or just
-     a string that is in json format? It might still be necessary
-     in the javascript side to "parse" it as json again! -->
-<script type="text/javascript">
-  let view_data = '{{ view_data|tojson }}';
-</script>
-
-<!-- Call the create charts function from our javascript code -->
-<script type="text/javascript">
-  createPlot(view_data);
-</script>
 
 </html>
