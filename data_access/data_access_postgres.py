@@ -1,8 +1,8 @@
 import psycopg2
 import os
 
-DATA_SOURCE = "postgres"
-db_connection_string = None
+DATA_SOURCE = ""
+db_connection_string = ""
 local_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
 
 # DATABASE_URL is a standard config variable set at heroku when you attach a postgres db
@@ -10,11 +10,13 @@ local_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/
 
 if 'DATABASE_URL' in os.environ:
     db_connection_string = os.environ['DATABASE_URL']
+    DATA_SOURCE = "postgres (production)"
 else:
     # or more elegantly, create a local DATABASE_URL environment variable
     # in which case you can omit the if/else and simply set the DB url to
     # the given value from your environment variable
     db_connection_string = local_connection_string
+    DATA_SOURCE = "postgres (development)"
 
 
 def get_connection():
