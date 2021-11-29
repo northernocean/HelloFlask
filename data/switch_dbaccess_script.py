@@ -12,15 +12,14 @@ from datetime import datetime
 # Setup
 root_dir = '/home/david/bootcamp/repos/HelloFlask'
 backup_current_dbaccess = True
-dbaccess_option = 5
+dbaccess_option = 1
 
 # dbaccess file options
 dbaccess_options = {
     1: 'postgres',
     2: 'sqlite',
     3: 'github_content_csv',
-    4: 'github_content_json',
-    5: 'api_v1'
+    4: 'github_content_json'
 }
 
 # Copy desired dbaccess file to root of directory. Optionally, backup the current one in use 
