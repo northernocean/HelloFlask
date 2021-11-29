@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from dotenv import load_dotenv
 import json
-import dbaccess as db
+import data_access.data_access_postgres as db_postgres_1
 import requests
 import os
 
@@ -39,9 +39,9 @@ def index():
 
 @app.route("/earthquakes/postgres/1")
 def earthquakes_postgres_1():
-    xs, ys = db.get_earthquake_count_by_years()
+    xs, ys = db_postgres_1.get_earthquake_count_by_years()
     view_data = {"xs": xs, "ys": ys}
-    view_data["data_source"] = db.DATA_SOURCE
+    view_data["data_source"] = db_postgres_1.DATA_SOURCE
     return render_template('earthquakes_postgres_1.html', view_data=view_data)
 
 @app.route("/earthquakes/p2")
