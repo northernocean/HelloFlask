@@ -22,57 +22,51 @@
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/postgres/1">/earthquakes/postgres/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Postgres</span>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">postgres</span>
         </div>
-        <p>Route with a postgres database data source.</p>
+        <p>{{ route_summaries['postgres'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/postgres/2">/earthquakes/postgres/2</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Postgres / Api</span>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">postgres / api</span>
         </div>
-        <p>Route with a postgres database datasource, but routed via an api route served from the same project. Mostly to show it works,
-          since if you have the database already accessible in the same project you do not really an api to access the data. Perhaps
-          this is a useful setup if you intend to later move the database out of the project.
-        </p>
+        <p>{{ route_summaries['postgres / api'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/sqlite/1">/earthquakes/sqlite/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">Sqlite</span>
+          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">sqlite</span>
         </div>
-        <p>Route with a local sqlite (readonly) database. Per Heroku docs, sqlite is not recommended. Probably it is fine for read-only access.
-           This is a good option to get experience with a database data source but also keeping the project simple with a local sqlite
-           database file that you can use exactly the same in development locally as well as in the deployed application at heroku.
-        </p>
+        <p>{{ route_summaries['sqlite'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/csv/1">/earthquakes/csv/1</a>
           <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / local</span>
         </div>
-        <p>Route using a csv file data source with a local csv file</p>
+        <p>{{ route_summaries['csv / local'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/csv/2">/earthquakes/csv/2</a>
           <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / fetch</span>
         </div>
-        <p>Route using a csv file data source with an externally stored csv file (github or storage bucket)</p>
+        <p>{{ route_summaries['csv / fetch'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/json/1">/earthquakes/json/1</a>
           <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / local</span>
         </div>
-        <p>Route using a json file data source with a local json file</p>
+        <p>{{ route_summaries['json / local'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/json/2">/earthquakes/json/2</a>
           <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / fetch</span>
         </div>
-        <p>Route using a json file data source with an externally stored json file (github or storage bucket)</p>
+        <p>{{ route_summaries['json / fetch'] }}</p>
       </li>
 
     

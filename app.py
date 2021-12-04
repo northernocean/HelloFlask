@@ -35,7 +35,7 @@ app = Flask(__name__)
 # ------
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', route_summaries=route_summaries())
 
 @app.route("/earthquakes/postgres/1")
 def earthquakes_postgres_1():
@@ -70,6 +70,42 @@ def earthquakes():
     xs, ys = db.get_earthquake_count_by_years()
     results_dict = {"xs": xs, "ys": ys}
     return json.dumps(results_dict)
+
+def route_summaries():
+    return {
+        'postgres':
+        ('Route with a postgres database data source. '
+            'In this example, if the project runs locally, a '
+            'connection is created to a local postgres server, '
+            'and if the project is deployed to heroku, a '
+            'connection is opened to a heroku-hosted postgres server.'),
+        'postgres / api':
+        ('Route with a postgres database datasource, '
+            'but routed via an api route served from the same project. '
+            'Note that if you already have the database accessible in '
+            'the same project you do not really an api to access the data. '
+            'This setup might be useful if you intend to later move '
+            'the database out of the project'),
+        'sqlite':
+        ('Route with a local sqlite (readonly) database. '
+            'Per Heroku docs, sqlite is not recommended for heroku deployments. '
+            'However, I have not had any issues with sqlite when used as a '
+            'a read-only datasource.  This is an option to get experience '
+            'with a database datasource while keeping the project simple '
+            'since you can use exactly the same db in development locally '
+            'as well as in the deployed application at heroku, provided '
+            'there is no requirement to write to the database.'),
+        'csv / local':
+        ('Route using a csv file data source'),
+        'csv / fetch':
+        ('Route using a csv file data source where the data file is '
+            'retrieved from an external location such as github or S3'),
+        'json / local':
+        ('Route using a json file data source'),
+        'json / fetch':
+        ('Route using a json file data source where the data file is '
+            'retrieved from an external location such as github or S3')
+    }
 
 if __name__ == "__main__":
     app.run()
