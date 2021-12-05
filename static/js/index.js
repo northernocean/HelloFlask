@@ -11,7 +11,10 @@ function createPlot(data) {
   let traces = [trace1];
 
   let layout = {
-    title: "A Plotly plot"
+    title: "Earthquakes by Year",
+    yaxis:{
+      showticklabels: false
+    }
   };
 
   Plotly.newPlot("plot", traces, layout);

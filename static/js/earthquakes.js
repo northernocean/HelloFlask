@@ -23,7 +23,7 @@ d3.json(
   let traces = [trace1];
 
   let layout = {
-    title: "A Plotly plot"
+    title: "Earthquakes by Year",
   };
 
   Plotly.newPlot("plot", traces, layout);

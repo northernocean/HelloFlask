@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Plot</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
   <style>
     #data-source {
@@ -17,54 +17,54 @@
 
 <body>
   <div class="container mt-5 w-50">
-    <h2>Pages:</h2>
+    <h4>Example Routes with various data sources:</h4>
     <ul class="list-group">
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/postgres/1">/earthquakes/postgres/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">postgres</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">postgres</span>
         </div>
         <p>{{ route_summaries['postgres'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/postgres/2">/earthquakes/postgres/2</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">postgres / api</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">postgres / api</span>
         </div>
         <p>{{ route_summaries['postgres / api'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/sqlite/1">/earthquakes/sqlite/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">sqlite</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">sqlite</span>
         </div>
         <p>{{ route_summaries['sqlite'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/csv/1">/earthquakes/csv/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / local</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">csv / local</span>
         </div>
         <p>{{ route_summaries['csv / local'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/csv/2">/earthquakes/csv/2</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">csv / fetch</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">csv / fetch</span>
         </div>
         <p>{{ route_summaries['csv / fetch'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/json/1">/earthquakes/json/1</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / local</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">json / local</span>
         </div>
         <p>{{ route_summaries['json / local'] }}</p>
       </li>
       <li class="list-group-item">
         <div class="m-1">
           <a href="/earthquakes/json/2">/earthquakes/json/2</a>
-          <span class="badge badge-pill badge-info ml-3" style="min-width: 120px;">json / fetch</span>
+          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">json / fetch</span>
         </div>
         <p>{{ route_summaries['json / fetch'] }}</p>
       </li>
