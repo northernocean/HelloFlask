@@ -1,76 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Plot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+      #data-source {
+        margin-left: 70px;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Plot</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-  <style>
-    #data-source {
-      margin-left: 70px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container mt-5 w-50">
-    <h4>Example Routes with various data sources:</h4>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/postgres/1">/earthquakes/postgres/1</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">postgres</span>
-        </div>
-        <p>{{ route_summaries['postgres'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/postgres/2">/earthquakes/postgres/2</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">postgres / api</span>
-        </div>
-        <p>{{ route_summaries['postgres / api'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/sqlite/1">/earthquakes/sqlite/1</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">sqlite</span>
-        </div>
-        <p>{{ route_summaries['sqlite'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/csv/1">/earthquakes/csv/1</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">csv / local</span>
-        </div>
-        <p>{{ route_summaries['csv / local'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/csv/2">/earthquakes/csv/2</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">csv / fetch</span>
-        </div>
-        <p>{{ route_summaries['csv / fetch'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/json/1">/earthquakes/json/1</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">json / local</span>
-        </div>
-        <p>{{ route_summaries['json / local'] }}</p>
-      </li>
-      <li class="list-group-item">
-        <div class="m-1">
-          <a href="/earthquakes/json/2">/earthquakes/json/2</a>
-          <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px;">json / fetch</span>
-        </div>
-        <p>{{ route_summaries['json / fetch'] }}</p>
-      </li>
-
-    
-    </ul>
-</body>
-
+  <body>
+    <div class="container mt-5 w-50">
+      <div class="row">
+        <h4 class="mb-3">Example routes with various data sources</h4>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/postgres/1">/earthquakes/postgres/1</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px">postgres</span>
+            </div>
+            <p>{{ route_summaries['postgres'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/postgres/2">/earthquakes/postgres/2</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
+                >postgres / api</span
+              >
+            </div>
+            <p>{{ route_summaries['postgres / api'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/sqlite/1">/earthquakes/sqlite/1</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px">sqlite</span>
+            </div>
+            <p>{{ route_summaries['sqlite'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/csv/1">/earthquakes/csv/1</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
+                >csv / local</span
+              >
+            </div>
+            <p>{{ route_summaries['csv / local'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/csv/2">/earthquakes/csv/2</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
+                >csv / fetch</span
+              >
+            </div>
+            <p>{{ route_summaries['csv / fetch'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/json/1">/earthquakes/json/1</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
+                >json / local</span
+              >
+            </div>
+            <p>{{ route_summaries['json / local'] }}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="m-1">
+              <a href="/earthquakes/json/2">/earthquakes/json/2</a>
+              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
+                >json / fetch</span
+              >
+            </div>
+            <p>{{ route_summaries['json / fetch'] }}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h4 class="mt-3">Notes</h4>
+        <p>
+          All of these routes employ a flask programming strategy where we take care of getting the
+          data needed for each page before the call to render the page is made. Once we have the
+          data we can then pass it to the page as a parameter in the render_template() function. In
+          this project, we follow a convention of passing all data to the page in the form of a
+          json-compatible string.
+        </p>
+        <p>For example, here is the code for the default earthquakes route:</p>
+        <pre>
+        /@app.route("/earthquakes")
+        def earthquakes():
+            db = db_postgres
+            xs, ys = db.get_earthquake_count_by_years()
+            view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
+            return render_template('earthquakes.html', view_data=view_data)
+        </pre>
+        <p>
+          If you compare this method to another one the uses a different data source (such as a csv
+          file stored at github), you will see that the only change is to substitute a different
+          data source - otherwise everything is exactly the same.
+        </p>
+        <pre>
+        /@app.route("/earthquakes/csv/1")
+        def earthquakes():
+            db = db_csv_remote
+            xs, ys = db.get_earthquake_count_by_years()
+            return render_template(
+            'earthquakes.html',
+            view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+        </pre>
+        <p>
+          In a simple way and indirect manner, you can see here how the code and the data, although
+          working together, are decoupled or kept independent from each other. With almost no
+          changes at all in the code, it is possible to switch out datasources quite easily - as
+          long as the data access modules provide the same get_earthquake_count_by_years() function
+          regardless of where the data comes from. To make this contract explicit, we would create
+          an interface and require the data_access modules to implement the interface (which in 
+          this example would mean implementing the required get_earthquake_count_by_years() method)
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

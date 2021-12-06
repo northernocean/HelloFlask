@@ -1,9 +1,14 @@
 from flask import Flask, render_template
 from dotenv import load_dotenv
 import json
-import data_access.data_access_postgres as db_postgres_1
 import requests
 import os
+import data_access.data_access_postgres as db_postgres
+import data_access.data_access_sqlite as db_sqlite
+import data_access.data_access_csv_local as db_csv_local
+import data_access.data_access_csv_remote as db_csv_remote
+import data_access.data_access_json_local as db_json_local
+import data_access.data_access_json_remote as db_json_remote
 
 # -----
 # Setup
@@ -30,29 +35,28 @@ else:
 # ------------------
 app = Flask(__name__)
 
-# ------
-# Routes
-# ------
+# -----------
+# Page Routes
+# -----------
 @app.route("/")
 def index():
     return render_template('index.html', route_summaries=route_summaries())
 
 @app.route("/earthquakes/postgres/1")
 def earthquakes_postgres_1():
-    xs, ys = db_postgres_1.get_earthquake_count_by_years()
+    db = db_postgres
+    xs, ys = db.get_earthquake_count_by_years()
     view_data = {"xs": xs, "ys": ys}
-    view_data["data_source"] = db_postgres_1.DATA_SOURCE
-    return render_template('earthquakes_postgres_1.html', view_data=view_data)
+    view_data["data_source"] = db.DATA_SOURCE
+    return render_template('earthquakes.html', view_data=view_data)
 
-@app.route("/earthquakes/p2")
-def earthquakes_p2():
-    return render_template('earthquakes.html', view_data={'url': API_BASE_URL + 'api/earthquakes'})
-
-@app.route("/earthquakes/s1")
-def earthquakes_s1():
+@app.route("/earthquakes/postgres/2")
+def earthquakes_postgres_2():
     # Calling the api as if it were an external api,
     # even though it is really in the same project.
-    # Presumably this works (seems a little odd though),
+    # by default the internal api uses postgres but in
+    # principle the api can use any datasource with
+    # the same strategies applied here for other routes.
     xs = []
     ys = []
     resource = "api/earthquakes"
@@ -62,15 +66,60 @@ def earthquakes_s1():
         xs = dict_temp["xs"]
         ys = dict_temp["ys"]
     return render_template(
-        'index.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE + " (via api)"})
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': 'internal api'})
 
+@app.route("/earthquakes/sqlite/1")
+def earthquakes_sqlite_1():
+    db = db_sqlite
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/csv/1")
+def earthquakes_csv_1():
+    db = db_csv_local
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/csv/2")
+def earthquakes_csv_2():
+    db = db_csv_remote
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/json/1")
+def earthquakes_json_1():
+    db = db_json_local
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/json/2")
+def earthquakes_json_2():
+    db = db_json_remote
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+# ----------
+# API Routes
+# ----------
 @app.route("/api/earthquakes")
 def earthquakes():
-    xs, ys = db.get_earthquake_count_by_years()
+    xs, ys = db_postgres.get_earthquake_count_by_years()
     results_dict = {"xs": xs, "ys": ys}
     return json.dumps(results_dict)
 
+# -----
+# Other
+# -----
 def route_summaries():
     return {
         'postgres':
