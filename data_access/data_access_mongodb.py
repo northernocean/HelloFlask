@@ -1,34 +1,36 @@
 import requests
+import pymongo
 import csv
 import io
+import json
 import pandas as pd
 import numpy as np
 
-DATA_SOURCE = "json file"
-uri = 'data/dat.json'
+DATA_SOURCE = "mongodb"
+conn = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
 data_df = None
 
 # Notes:
 # The column for MagnitudeSeismicStations is stored as a float in this
 #     pandas dataframe, whereas it is a int in postgres/sqlite databases.
 
+
 def get_connection():
-    '''for a csv data source we do not really "connect" to the datasource as would
-       happen with a database. Instead, we retrieve the data and hold it locally
-       in a pandas dataframe - which we can then treat as in-memory data source'''
     global data_df
     if data_df is None:
         try:
-            data_df = pd.read_json(uri)
-            data_df['Date'] = pd.to_datetime(data_df['Date'], format="%Y-%m-%d")
-            data_df['Time'] = pd.to_datetime(data_df['Time'],format="%H:%M:%S")
+            client = pymongo.MongoClient(conn)
+            db = client['calico']['earthquakes']
+            data_df = pd.DataFrame(list(db.find()))
+            data_df['Date'] = pd.to_datetime(data_df['Date'])
+            data_df['Time'] = pd.to_datetime(data_df['Time'])
         except Exception as ex:
             data_df = None
     return data_df.copy(deep=True)
 
 
 def test_connection():
-    print ('\ntesting db connection to remote json file storage')
+    print ('\ntesting connection to mongodb')
     df = get_connection()
     if df is None:
         print("Connection failed!")

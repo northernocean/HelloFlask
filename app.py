@@ -46,8 +46,7 @@ def index():
 def earthquakes_postgres_1():
     db = db_postgres
     xs, ys = db.get_earthquake_count_by_years()
-    view_data = {"xs": xs, "ys": ys}
-    view_data["data_source"] = db.DATA_SOURCE
+    view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
     return render_template('earthquakes.html', view_data=view_data)
 
 @app.route("/earthquakes/postgres/2")
@@ -101,18 +100,18 @@ def earthquakes_json_1():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
-@app.route("/earthquakes/json/2")
-def earthquakes_json_2():
-    db = db_json_remote
+@app.route("/earthquakes")
+def earthquakes():
+    db = db_postgres
     xs, ys = db.get_earthquake_count_by_years()
-    return render_template(
-        'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+    view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
+    return render_template('earthquakes.html', view_data=view_data)
+
 # ----------
 # API Routes
 # ----------
 @app.route("/api/earthquakes")
-def earthquakes():
+def api_earthquakes():
     xs, ys = db_postgres.get_earthquake_count_by_years()
     results_dict = {"xs": xs, "ys": ys}
     return json.dumps(results_dict)
