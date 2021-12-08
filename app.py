@@ -5,6 +5,7 @@ import requests
 import os
 import data_access.data_access_postgres as db_postgres
 import data_access.data_access_sqlite as db_sqlite
+import data_access.data_access_mongodb as db_mongodb
 import data_access.data_access_csv_local as db_csv_local
 import data_access.data_access_csv_remote as db_csv_remote
 import data_access.data_access_json_local as db_json_local
@@ -40,7 +41,8 @@ app = Flask(__name__)
 # -----------
 @app.route("/")
 def index():
-    return render_template('index.html', route_summaries=route_summaries())
+    return render_template('index.html', 
+        route_summaries=route_summaries())
 
 @app.route("/earthquakes/postgres/1")
 def earthquakes_postgres_1():
@@ -100,6 +102,22 @@ def earthquakes_json_1():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
+@app.route("/earthquakes/json/2")
+def earthquakes_json_2():
+    db = db_json_remote
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/mongodb/1")
+def earthquakes_json_2():
+    db = db_mongodb
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
 @app.route("/earthquakes")
 def earthquakes():
     db = db_postgres
@@ -143,6 +161,9 @@ def route_summaries():
             'since you can use exactly the same db in development locally '
             'as well as in the deployed application at heroku, provided '
             'there is no requirement to write to the database.'),
+        'mongodb':
+        ('Route using a mongodb data source. In this project, '
+            'we have used a local mongodb datasource.'),
         'csv / local':
         ('Route using a csv file data source'),
         'csv / fetch':
