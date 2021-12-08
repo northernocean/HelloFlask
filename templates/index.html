@@ -19,65 +19,15 @@
       <div class="row">
         <h4 class="mb-3">Example routes with various data sources</h4>
         <ul class="list-group">
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/postgres/1">/earthquakes/postgres/1</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px">postgres</span>
-            </div>
-            <p>{{ route_summaries['postgres'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/postgres/2">/earthquakes/postgres/2</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
-                >postgres / api</span
-              >
-            </div>
-            <p>{{ route_summaries['postgres / api'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/sqlite/1">/earthquakes/sqlite/1</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px">sqlite</span>
-            </div>
-            <p>{{ route_summaries['sqlite'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/csv/1">/earthquakes/csv/1</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
-                >csv / local</span
-              >
-            </div>
-            <p>{{ route_summaries['csv / local'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/csv/2">/earthquakes/csv/2</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
-                >csv / fetch</span
-              >
-            </div>
-            <p>{{ route_summaries['csv / fetch'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/json/1">/earthquakes/json/1</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
-                >json / local</span
-              >
-            </div>
-            <p>{{ route_summaries['json / local'] }}</p>
-          </li>
-          <li class="list-group-item">
-            <div class="m-1">
-              <a href="/earthquakes/json/2">/earthquakes/json/2</a>
-              <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px"
-                >json / fetch</span
-              >
-            </div>
-            <p>{{ route_summaries['json / fetch'] }}</p>
-          </li>
+          {% for key, value in route_summaries_dict.items() %}
+            <li class="list-group-item">
+              <div class="m-1">
+                <a href="{{ value['url'] }}">{{ value['url'] }}</a>
+                <span class="badge rounded-pill bg-info ms-3" style="min-width: 120px">{{ key }}</span>
+              </div>
+              <p>{{ value['description'] }}</p>
+            </li>
+          {% endfor %}
         </ul>
       </div>
       <div class="row">
@@ -116,10 +66,10 @@
           In a simple way and indirect manner, you can see here how the code and the data, although
           working together, are decoupled or kept independent from each other. With almost no
           changes at all in the code, it is possible to switch out datasources quite easily - as
-          long as the data access modules provide the same get_earthquake_count_by_years() function
-          regardless of where the data comes from. To make this contract explicit, we would create
-          an interface and require the data_access modules to implement the interface (which in 
-          this example would mean implementing the required get_earthquake_count_by_years() method)
+          long as the data access modules provide a get_earthquake_count_by_years() function for access
+          to the data. To makes this requirement explicit, we could create an interface and require
+          the data_access modules to implement the interface (which in this example would mean
+          implementing the get_earthquake_count_by_years() method)
         </p>
       </div>
     </div>

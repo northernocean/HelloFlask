@@ -42,7 +42,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html', 
-        route_summaries=route_summaries())
+        route_summaries_dict=route_summaries())
 
 @app.route("/earthquakes/postgres/1")
 def earthquakes_postgres_1():
@@ -73,6 +73,14 @@ def earthquakes_postgres_2():
 @app.route("/earthquakes/sqlite/1")
 def earthquakes_sqlite_1():
     db = db_sqlite
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/mongodb/1")
+def earthquakes_mongodb_1():
+    db = db_mongodb
     xs, ys = db.get_earthquake_count_by_years()
     return render_template(
         'earthquakes.html',
@@ -110,14 +118,6 @@ def earthquakes_json_2():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
-@app.route("/earthquakes/mongodb/1")
-def earthquakes_json_2():
-    db = db_mongodb
-    xs, ys = db.get_earthquake_count_by_years()
-    return render_template(
-        'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
-
 @app.route("/earthquakes")
 def earthquakes():
     db = db_postgres
@@ -140,40 +140,60 @@ def api_earthquakes():
 def route_summaries():
     return {
         'postgres':
-        ('Route with a postgres database data source. '
+        {   
+            'url':'earthquakes/postgres/1',
+            'description': ('Route with a postgres database data source. '
             'In this example, if the project runs locally, a '
             'connection is created to a local postgres server, '
             'and if the project is deployed to heroku, a '
-            'connection is opened to a heroku-hosted postgres server.'),
+            'connection is opened to a heroku-hosted postgres server.')
+        },
         'postgres / api':
-        ('Route with a postgres database datasource, '
+        {
+            'url': 'earthquakes/postgres/2',
+            'description': ('Route with a postgres database datasource, '
             'but routed via an api route served from the same project. '
             'Note that if you already have the database accessible in '
             'the same project you do not really an api to access the data. '
             'This setup might be useful if you intend to later move '
-            'the database out of the project'),
+            'the database out of the project')
+        },
         'sqlite':
-        ('Route with a local sqlite (readonly) database. '
+        {
+            'url':'earthquakes/sqlite/1',
+            'description': ('Route with a local sqlite (readonly) database. '
             'Per Heroku docs, sqlite is not recommended for heroku deployments. '
             'However, I have not had any issues with sqlite when used as a '
-            'a read-only datasource.  This is an option to get experience '
-            'with a database datasource while keeping the project simple '
-            'since you can use exactly the same db in development locally '
-            'as well as in the deployed application at heroku, provided '
-            'there is no requirement to write to the database.'),
+            'a read-only datasource.')
+        },
         'mongodb':
-        ('Route using a mongodb data source. In this project, '
-            'we have used a local mongodb datasource.'),
+        {
+            'url':'earthquakes/mongodb/1',
+            'description': ('Route using a mongodb data source. In this project, '
+            'we have used a local mongodb datasource.')
+        },
         'csv / local':
-        ('Route using a csv file data source'),
+        {
+            'url':'earthquakes/csv/1',
+            'description': ('Route using a csv file data source')
+        },
         'csv / fetch':
-        ('Route using a csv file data source where the data file is '
-            'retrieved from an external location such as github or S3'),
-        'json / local':
-        ('Route using a json file data source'),
-        'json / fetch':
-        ('Route using a json file data source where the data file is '
+        {
+            'url':'earthquakes/csv/2',
+            'description': ('Route using a csv file data source where the data file is '
             'retrieved from an external location such as github or S3')
+        },
+        'json / local':
+        {
+            'url':'earthquakes/json/1',
+            'description': ('Route using a json file data source')
+        },
+        'json / fetch':
+        {
+            'url':'earthquakes/json/2',
+            'description': ('Route using a json file data source where the data file is '
+            'retrieved from an external location such as github or S3')
+        }
     }
 
 if __name__ == "__main__":
