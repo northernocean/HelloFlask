@@ -1,2 +1,0 @@
-# combine below into one line
-mongoimport --uri "mongodb://192.168.0.186/calico" --username david --collection earthquakes --drop --jsonArray --file /home/david/bootcamp/repos/HelloFlask/data/dat2.json
