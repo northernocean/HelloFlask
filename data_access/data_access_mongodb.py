@@ -9,8 +9,8 @@ conn = ''
 data_df = None
 
 if 'MONGO_CONN' in os.environ:
-    conn = os.environ['MONGO_CONNECTION_STRING']
-    DATA_SOURCE = "mongodb (production)"
+    conn = os.environ['MONGO_URI']
+    DATA_SOURCE = "mongodb (production)\n\nPRODUCTION MONGODB NOT SUPPORTED"
 else:
     # or more elegantly, create a local DATABASE_URL environment variable
     # in which case you can omit the if/else and simply set the DB url to
