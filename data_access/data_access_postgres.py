@@ -22,7 +22,13 @@ else:
 def get_connection():
     #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
     #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
-    cn = psycopg2.connect(db_connection_string)
+    try:
+        cn = psycopg2.connect(db_connection_string)
+    except Exception as ex:
+        print('ERROR CONNECTING TO POSTGRES')
+        print('---------------------------')
+        print(ex)
+        print('---------------------------')
     return cn
 
 
@@ -33,8 +39,6 @@ def test_connection():
         cn = get_connection()
         if cn is not None:
             print('connection succeeded!\n')
-        else:
-            print('connection failed!\n')
     finally:
         if cn:
             cn.close()
@@ -67,3 +71,7 @@ def get_earthquake_count_by_years():
             cn.close()
             print('connection closed')
     return xs, ys
+
+
+if __name__ == "__main__":
+    test_connection()

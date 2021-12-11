@@ -5,18 +5,28 @@ import numpy as np
 
 DATA_SOURCE = "mongodb"
 mongo_connection_string = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
+if('MONGO_URI') in os.environ:
+    if os.environ['MONGO_URI']:
+        # to connect to our atlas (cloud hosted) mongodb, 
+        # we use a connection string such as:
+        # mongodb+srv://david:<password>
+        #   @hiddenstreammdb.mquww.mongodb.net/calico?retryWrites=true&w=majority
+        # However, the actual connection string with the password
+        # is stored in our environment variables to protect the password
+        mongo_connection_string = os.environ['MONGO_URI']
+        print(mongo_connection_string)
 conn = ''
 data_df = None
 
-if 'MONGO_CONN' in os.environ:
+if 'MONGO_URI' in os.environ:
     conn = os.environ['MONGO_URI']
-    DATA_SOURCE = "mongodb (production)\n\nPRODUCTION MONGODB NOT SUPPORTED"
+    DATA_SOURCE = "mongodb (cloud server)"
 else:
     # or more elegantly, create a local DATABASE_URL environment variable
     # in which case you can omit the if/else and simply set the DB url to
     # the given value from your environment variable
     conn = mongo_connection_string
-    DATA_SOURCE = "mongodb (development)"
+    DATA_SOURCE = "mongodb (local server)"
 
 # Notes:
 # The column for MagnitudeSeismicStations is stored as a float in this
@@ -32,6 +42,10 @@ def get_connection():
             data_df['Date'] = pd.to_datetime(data_df['Date'])
             data_df['Time'] = pd.to_datetime(data_df['Time'])
         except Exception as ex:
+            print('ERROR CONNECTING TO MONGODB')
+            print('---------------------------')
+            print(ex)
+            print('---------------------------')
             data_df = None
     return data_df.copy(deep=True)
 

@@ -78,14 +78,6 @@ def earthquakes_sqlite_1():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
-@app.route("/earthquakes/mongodb/1")
-def earthquakes_mongodb_1():
-    db = db_mongodb
-    xs, ys = db.get_earthquake_count_by_years()
-    return render_template(
-        'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
-
 @app.route("/earthquakes/csv/1")
 def earthquakes_csv_1():
     db = db_csv_local
@@ -124,6 +116,16 @@ def earthquakes():
     xs, ys = db.get_earthquake_count_by_years()
     view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
     return render_template('earthquakes.html', view_data=view_data)
+
+@app.route("/earthquakes/mongodb/1")
+def earthquakes_mongodb_1():
+    if IS_PRODUCTION_ENVIRONMENT:
+        return
+    db = db_mongodb
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
 # ----------
 # API Routes
@@ -166,12 +168,6 @@ def route_summaries():
             'However, I have not had any issues with sqlite when used as a '
             'a read-only datasource.')
         },
-        'mongodb':
-        {
-            'url':'earthquakes/mongodb/1',
-            'description': ('Route using a mongodb data source. In this project, '
-            'we have used a local mongodb datasource.')
-        },
         'csv / local':
         {
             'url':'earthquakes/csv/1',
@@ -193,6 +189,18 @@ def route_summaries():
             'url':'earthquakes/json/2',
             'description': ('Route using a json file data source where the data file is '
             'retrieved from an external location such as github or S3')
+        },
+        'mongodb':
+        {
+            'url':'earthquakes/mongodb/1',
+            'description': ('Route using a mongodb data source. In this project, '
+            'we have setup a local (development) mongodb datasource. '
+            'This link will not work in production - the main reason is that '
+            'our cloud mongodb deployment whitelists access by IP address '
+            'but at heroku we do not have a static IP address and obtaining one '
+            'involves a credit card and (potentially) billing charges. '
+            'However, our development setup does allow use of either a local '
+            'mongo server or a cloud mongo server, and plenty of other options are also available.')
         }
     }
 
