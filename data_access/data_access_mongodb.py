@@ -1,25 +1,32 @@
-import requests
-import pymongo
-import csv
-import io
-import json
+from pymongo import MongoClient
+import os
 import pandas as pd
 import numpy as np
 
 DATA_SOURCE = "mongodb"
-conn = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
+mongo_connection_string = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
+conn = ''
 data_df = None
+
+if 'MONGO_CONN' in os.environ:
+    conn = os.environ['MONGO_CONNECTION_STRING']
+    DATA_SOURCE = "mongodb (production)"
+else:
+    # or more elegantly, create a local DATABASE_URL environment variable
+    # in which case you can omit the if/else and simply set the DB url to
+    # the given value from your environment variable
+    conn = mongo_connection_string
+    DATA_SOURCE = "mongodb (development)"
 
 # Notes:
 # The column for MagnitudeSeismicStations is stored as a float in this
 #     pandas dataframe, whereas it is a int in postgres/sqlite databases.
 
-
 def get_connection():
     global data_df
     if data_df is None:
         try:
-            client = pymongo.MongoClient(conn)
+            client = MongoClient(conn)
             db = client['calico']['earthquakes']
             data_df = pd.DataFrame(list(db.find()))
             data_df['Date'] = pd.to_datetime(data_df['Date'])
