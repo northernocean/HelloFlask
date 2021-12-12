@@ -27,11 +27,15 @@ if (metadata.data_source == "json-fetch") {
 
 function summarizeData(data, dateFormat) {
   years = {};
-  const k = dateFormat.startsWith("yyyy") ? 0 : 2;
+  const fmt = dateFormat.startsWith("yyyy") ? "ymd" : "dmy";
   data.forEach(function (item) {
     //Json data source has dates in format "yyyy-mm-dd"
     //  but csv data source has dates in format "mm/dd/yyyy"
-    year = item.Date.replace("/","-").split("-")[k];
+    if(fmt == "ymd")
+      year = item.Date.split("-")[0];
+    else
+      year = item.Date.split("/")[2];
+    console.log(year);
     if (years.hasOwnProperty(year)) {
       years[year] += 1;
     } else {
