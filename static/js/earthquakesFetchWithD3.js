@@ -38,6 +38,7 @@ function summarizeData(data, dateFormat) {
       years[year] = 1;
     }
   });
+  // Sort and sum up count by years
   let sorted_years = Object.keys(years).sort((a, b) => a - b);
   xs = [];
   ys = [];
