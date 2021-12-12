@@ -8,38 +8,33 @@
   <title>Plot</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-  <style>
-    #data-source {
-      margin-left: 70px;
-    }
-  </style>
 </head>
 
 <body>
   <div class="container w-50">
     <div id="plot"></div>
     <h6 id="data-source">data connected to: {{ view_data.data_source }}</h6>
+    <a class="btn btn-info" href="/">Return to Home Page</button>
 </body>
 
 <!-- plotly -->
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="{{ url_for('static', filename='js/plotly.min.js') }}"></script>
+
+<!-- Convert the data provided from flask (a dict) to a json object and assign it to
+     a javascript variable that can be used in our javascript code. However,
+     it seems to arrive in the javascript environment as a string (albeit otherwise 
+     in perfectly good json format) so in index.js there is a call to JSON.parse()
+     one more time before the data is used. -->
+<script type="text/javascript">
+  let view_data_json = '{{ view_data|tojson }}';
+</script>
 
 <!-- Load local javascript code -->
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-
-<!-- Convert the data provided from flask (a string) to a json object 
-     and assign it to a javascript variable. Now we can use the data
-     in our code.
-     This is still unclear - are we passing real json or just
-     a string that is in json format? It might still be necessary
-     in the javascript side to "parse" it as json again! -->
-<script type="text/javascript">
-  let view_data = '{{ view_data|tojson }}';
-</script>
+<script src="{{ url_for('static', filename='js/earthquakes.js') }}"></script>
 
 <!-- Call the create charts function from our javascript code -->
 <script type="text/javascript">
-  createPlot(view_data);
+  createPlot(view_data_json);
 </script>
 
 </html>

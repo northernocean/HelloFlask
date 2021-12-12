@@ -14,7 +14,6 @@ if('MONGO_URI') in os.environ:
         # However, the actual connection string with the password
         # is stored in our environment variables to protect the password
         mongo_connection_string = os.environ['MONGO_URI']
-        print(mongo_connection_string)
 conn = ''
 data_df = None
 

@@ -94,6 +94,13 @@ def earthquakes_csv_2():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
+@app.route("/earthquakes/csv/3")
+def earthquakes_csv_3():
+    return render_template(
+        'earthquakesFetchWithD3.html',
+        view_data={'uri': db_csv_remote.uri,
+         'data_source': 'csv-fetch'})
+
 @app.route("/earthquakes/json/1")
 def earthquakes_json_1():
     db = db_json_local
@@ -109,6 +116,13 @@ def earthquakes_json_2():
     return render_template(
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
+@app.route("/earthquakes/json/3")
+def earthquakes_json_3():
+    return render_template(
+        'earthquakesFetchWithD3.html',
+        view_data={'uri': db_json_remote.uri,
+         'data_source': 'json-fetch'})
 
 @app.route("/earthquakes")
 def earthquakes():
@@ -179,6 +193,12 @@ def route_summaries():
             'description': ('Route using a csv file data source where the data file is '
             'retrieved from an external location such as github or S3')
         },
+        'csv / fetch (d3.js)':
+        {
+            'url':'earthquakes/csv/3',
+            'description': ('Route using a csv file data source where the data file is '
+            'retrieved entirely under the control of javascript using d3.json() to fetch data.')
+        },
         'json / local':
         {
             'url':'earthquakes/json/1',
@@ -189,6 +209,12 @@ def route_summaries():
             'url':'earthquakes/json/2',
             'description': ('Route using a json file data source where the data file is '
             'retrieved from an external location such as github or S3')
+        },
+        'json / fetch (d3.js)':
+        {
+            'url':'earthquakes/json/3',
+            'description': ('Route using a csv file data source where the data file is '
+            'retrieved entirely under the control of javascript using d3.json() to fetch data.')
         },
         'mongodb':
         {

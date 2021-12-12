@@ -1,18 +1,7 @@
-// Fetch data from api
-view_data = JSON.parse(view_data);
-
-d3.json(
-  view_data.url)
-  .then(function (data) {
-    createPlot(data);
-  })
-  .catch(function (e) {
-    console.log(e);
-  });
-
-// create plot
-  function createPlot(data) {
-
+function createPlot(d) {
+  
+  var data = JSON.parse(d);
+  
   let trace1 = {
     x: data.xs,
     y: data.ys,
@@ -24,6 +13,9 @@ d3.json(
 
   let layout = {
     title: "Earthquakes by Year",
+    yaxis:{
+      showticklabels: false
+    }
   };
 
   Plotly.newPlot("plot", traces, layout);
