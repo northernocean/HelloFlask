@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import numpy as np
 
+# whitelist access at Atlas may be necessary to make this work
+
 DATA_SOURCE = "mongodb"
 mongo_connection_string = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
 if('MONGO_URI') in os.environ:
