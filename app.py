@@ -70,6 +70,16 @@ def earthquakes_postgres_2():
         'earthquakes.html',
         view_data={'xs': xs, 'ys': ys, 'data_source': 'internal api'})
 
+@app.route("/earthquakes/mongodb/1")
+def earthquakes_mongodb_1():
+    if IS_PRODUCTION_ENVIRONMENT:
+        return
+    db = db_mongodb
+    xs, ys = db.get_earthquake_count_by_years()
+    return render_template(
+        'earthquakes.html',
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+
 @app.route("/earthquakes/sqlite/1")
 def earthquakes_sqlite_1():
     db = db_sqlite
@@ -131,16 +141,6 @@ def earthquakes():
     view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
     return render_template('earthquakes.html', view_data=view_data)
 
-@app.route("/earthquakes/mongodb/1")
-def earthquakes_mongodb_1():
-    if IS_PRODUCTION_ENVIRONMENT:
-        return
-    db = db_mongodb
-    xs, ys = db.get_earthquake_count_by_years()
-    return render_template(
-        'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
-
 # ----------
 # API Routes
 # ----------
@@ -173,6 +173,18 @@ def route_summaries():
             'the same project you do not really an api to access the data. '
             'This setup might be useful if you intend to later move '
             'the database out of the project')
+        },
+        'mongodb':
+        {
+            'url':'earthquakes/mongodb/1',
+            'description': ('Route using a mongodb data source. In this project, '
+            'we have setup a local (development) mongodb datasource. '
+            'This link will not work in production - the main reason is that '
+            'our cloud mongodb deployment whitelists access by IP address '
+            'but at heroku we do not have a static IP address and obtaining one '
+            'involves a credit card and (potentially) billing charges. '
+            'However, our development setup does allow use of either a local '
+            'mongo server or a cloud mongo server, and plenty of other options are also available.')
         },
         'sqlite':
         {
@@ -215,18 +227,6 @@ def route_summaries():
             'url':'earthquakes/json/3',
             'description': ('Route using a csv file data source where the data file is '
             'retrieved entirely under the control of javascript using d3.json() to fetch data.')
-        },
-        'mongodb':
-        {
-            'url':'earthquakes/mongodb/1',
-            'description': ('Route using a mongodb data source. In this project, '
-            'we have setup a local (development) mongodb datasource. '
-            'This link will not work in production - the main reason is that '
-            'our cloud mongodb deployment whitelists access by IP address '
-            'but at heroku we do not have a static IP address and obtaining one '
-            'involves a credit card and (potentially) billing charges. '
-            'However, our development setup does allow use of either a local '
-            'mongo server or a cloud mongo server, and plenty of other options are also available.')
         }
     }
 
