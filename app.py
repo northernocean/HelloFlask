@@ -75,10 +75,10 @@ def earthquakes_mongodb_1():
     if IS_PRODUCTION_ENVIRONMENT:
         return
     db = db_mongodb
-    xs, ys = db.get_earthquake_count_by_years()
+    xs, ys, z = db.get_earthquake_count_by_years()
     return render_template(
         'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
+        view_data={'xs': xs, 'ys': ys, 'data_source': z})
 
 @app.route("/earthquakes/sqlite/1")
 def earthquakes_sqlite_1():

@@ -29,7 +29,6 @@ def get_connection():
     global data_df
     if data_df is None:
         try:
-            print(conn)
             client = MongoClient(conn)
             db = client['calico']['earthquakes']
             data_df = pd.DataFrame(list(db.find()))
@@ -52,8 +51,12 @@ def test_connection():
     else:
         print("Connection succeeded!")
 
-
 def get_earthquake_count_by_years():
+    xs = []
+    ys = []
+    return xs, ys, conn
+
+def get_earthquake_count_by_years2():
     xs = []
     ys = []
     df = get_connection()
