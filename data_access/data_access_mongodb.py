@@ -20,7 +20,6 @@ if('MONGO_URI') in os.environ:
         # use an extension on the heroku side to provide a static IP to serve the
         # application and then whitelist that IP for access to the mongo service.
         mongo_connection_string = os.environ['MONGO_URI']
-print(mongo_connection_string)
 conn = ''
 data_df = None
 
