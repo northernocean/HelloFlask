@@ -15,6 +15,10 @@ if('MONGO_URI') in os.environ:
         #   @hiddenstreammdb.mquww.mongodb.net/calico?retryWrites=true&w=majority
         # However, the actual connection string with the password
         # is stored in our environment variables to protect the password
+        #
+        # On the atlas side you may need to allow access from anywhere, or
+        # use an extension on the heroku side to provide a static IP to serve the
+        # application and then whitelist that IP for access to the mongo service.
         mongo_connection_string = os.environ['MONGO_URI']
 print(mongo_connection_string)
 conn = ''
