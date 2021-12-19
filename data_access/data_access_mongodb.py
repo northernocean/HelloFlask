@@ -5,31 +5,22 @@ import numpy as np
 
 DATA_SOURCE = "mongodb"
 mongo_connection_string = 'mongodb://david:windy-chance@192.168.0.186:27017/calico'
-if('MONGO_URI') in os.environ:
-    if os.environ['MONGO_URI']:
-        # to connect to our atlas (cloud hosted) mongodb, 
-        # we use a connection string such as:
-        # mongodb+srv://david:<password>
-        #   @hiddenstreammdb.mquww.mongodb.net/calico?retryWrites=true&w=majority
-        # However, the actual connection string with the password
-        # is stored in our environment variables to protect the password
-        #
-        # On the atlas side you may need to allow access from anywhere, or
-        # use an extension on the heroku side to provide a static IP to serve the
-        # application and then whitelist that IP for access to the mongo service.
-        mongo_connection_string = os.environ['MONGO_URI']
 conn = ''
 data_df = None
 
-if 'MONGO_URI' in os.environ:
-    conn = os.environ['MONGO_URI']
-    DATA_SOURCE = "mongodb (cloud server)"
-else:
-    # or more elegantly, create a local DATABASE_URL environment variable
-    # in which case you can omit the if/else and simply set the DB url to
-    # the given value from your environment variable
-    conn = mongo_connection_string
-    DATA_SOURCE = "mongodb (local server)"
+if('MONGO_URI') in os.environ:
+    if os.environ['MONGO_URI']:
+        # to connect to our atlas (cloud hosted) mongodb, we use a connection string such as:
+        # mongodb+srv://david:<password>@hiddenstreammdb.mquww.mongodb.net/calico?retryWrites=true&w=majority
+        # or mongodb://david:windy-chance@192.168.0.186:27017/calico (these are examples for atlas cloud and local).
+        # However, the connection strings are stored in our environment variables to protect passwords
+        # On the atlas side you may need to allow access from anywhere, or use an extension on the heroku
+        # side to provide a static IP to serve the application and then whitelist that IP for access to the mongo service.
+        conn = os.environ['MONGO_URI']
+        if "192.168.0" in conn:
+            DATA_SOURCE = "mongodb (local server)"
+        else:
+            DATA_SOURCE = "mongodb (cloud server)"
 
 # Notes:
 # The column for MagnitudeSeismicStations is stored as a float in this
