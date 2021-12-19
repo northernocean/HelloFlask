@@ -73,10 +73,10 @@ def earthquakes_postgres_2():
 @app.route("/earthquakes/mongodb/1")
 def earthquakes_mongodb_1():
     db = db_mongodb
-    xs, ys, z = db.get_earthquake_count_by_years()
+    xs, ys = db.get_earthquake_count_by_years()
     return render_template(
         'earthquakes.html',
-        view_data={'xs': xs, 'ys': ys, 'data_source': z})
+        view_data={'xs': xs, 'ys': ys, 'data_source': db.DATA_SOURCE})
 
 @app.route("/earthquakes/sqlite/1")
 def earthquakes_sqlite_1():

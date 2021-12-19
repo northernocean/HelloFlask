@@ -54,11 +54,6 @@ def test_connection():
 def get_earthquake_count_by_years():
     xs = []
     ys = []
-    return xs, ys, conn
-
-def get_earthquake_count_by_years2():
-    xs = []
-    ys = []
     df = get_connection()
     if df is not None:
         df['Year'] = df['Date'].dt.year
