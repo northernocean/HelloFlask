@@ -30,6 +30,7 @@ def get_connection():
     global data_df
     if data_df is None:
         try:
+            print(conn)
             client = MongoClient(conn)
             db = client['calico']['earthquakes']
             data_df = pd.DataFrame(list(db.find()))
