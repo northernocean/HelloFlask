@@ -72,8 +72,6 @@ def earthquakes_postgres_2():
 
 @app.route("/earthquakes/mongodb/1")
 def earthquakes_mongodb_1():
-    if IS_PRODUCTION_ENVIRONMENT:
-        return
     db = db_mongodb
     xs, ys, z = db.get_earthquake_count_by_years()
     return render_template(
