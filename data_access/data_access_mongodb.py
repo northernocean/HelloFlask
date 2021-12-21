@@ -11,9 +11,9 @@ data_df = None
 if('MONGO_URI') in os.environ:
     # to connect to our atlas (cloud hosted) mongodb, we use a connection string such as:
     # mongodb+srv://david:<password>@hiddenstreammdb.mquww.mongodb.net/calico?retryWrites=true&w=majority
-    # or mongodb://david:windy-chance@192.168.0.186:27017/calico (these are examples for atlas cloud and local).
+    # or mongodb://david:<password>@192.168.0.186:27017/calico (these are examples for remote and local databases respectively).
     # However, the connection strings are stored in our environment variables to protect passwords
-    # On the atlas side you may need to allow access from anywhere, or use an extension on the heroku
+    # Note that on the atlas side you may need to allow access from anywhere, or use an extension on the heroku
     # side to provide a static IP to serve the application and then whitelist that IP for access to the mongo service.
     conn = os.environ['MONGO_URI']
     if "192.168.0" in conn:
@@ -35,10 +35,7 @@ def get_connection():
             data_df['Date'] = pd.to_datetime(data_df['Date'])
             data_df['Time'] = pd.to_datetime(data_df['Time'])
         except Exception as ex:
-            print('ERROR CONNECTING TO MONGODB')
-            print('---------------------------')
             print(ex)
-            print('---------------------------')
             data_df = None
     return data_df.copy(deep=True)
 

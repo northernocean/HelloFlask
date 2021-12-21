@@ -3,37 +3,35 @@ import os
 
 DATA_SOURCE = ""
 db_connection_string = ""
-local_connection_string = 'postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust'
 
 # DATABASE_URL is a standard config variable set at heroku when you attach a postgres db
-# the url at heroku will be in the form "postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE"
+# and the url at heroku will be in the form "postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE"
+# For local development the postgres connection string can be placed in the same environment
+# variable, or it can be hard-coded in as shown below.
 
 if 'DATABASE_URL' in os.environ:
     db_connection_string = os.environ['DATABASE_URL']
-    DATA_SOURCE = "postgres (production)"
+    if '192.168.0' in db_connection_string:
+        DATA_SOURCE = "postgres (development)"
+    else:
+        DATA_SOURCE = "postgres (production)"
 else:
-    # or more elegantly, create a local DATABASE_URL environment variable
-    # in which case you can omit the if/else and simply set the DB url to
-    # the given value from your environment variable
-    db_connection_string = local_connection_string
+    db_connection_string = 'postgres://<user>:<password>@192.168.0.1:5432/<database>'
     DATA_SOURCE = "postgres (development)"
 
 
 def get_connection():
-    #pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
-    #pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
     try:
+        # pyscopg2.connect(host=ADDRESS, port=PORT, database=DATABASE, user=USER, password=PASSWORD)
+        # pyscopg2.connect('postgres://USER:PASSWORD@ADDRESS:PORT/DATABASE')
         cn = psycopg2.connect(db_connection_string)
     except Exception as ex:
-        print('ERROR CONNECTING TO POSTGRES')
-        print('---------------------------')
         print(ex)
-        print('---------------------------')
+        cn = None
     return cn
 
 
 def test_connection():
-    '''Attempts a DB connection with the default database'''
     try:
         print ('\ntesting db connection to ' + db_connection_string.split('@')[1])
         cn = get_connection()
@@ -61,7 +59,6 @@ def get_earthquake_count_by_years():
         ''')
         rows = cur.fetchall()
         for row in rows:
-            # print(row)
             xs.append(row[0])
             ys.append(row[1])        
     except Exception as ex:

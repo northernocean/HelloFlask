@@ -1,4 +1,3 @@
-import os
 import sqlite3
 
 DATA_SOURCE = "sqlite"
@@ -6,7 +5,6 @@ db_connection_string = 'data/dat.sqlite3'
 
 
 def test_connection():
-    '''Attempts a DB connection with the default database'''
     try:
         print ('\ntesting db connection to ' + db_connection_string)
         cn = get_connection()
@@ -22,8 +20,8 @@ def get_connection():
     conn = None
     try:
         conn = sqlite3.connect(db_connection_string)
-    except:
-        print("Error connecting to sqlite")
+    except Exception as ex:
+        print(ex)
     return conn
 
 def get_earthquake_count_by_years():

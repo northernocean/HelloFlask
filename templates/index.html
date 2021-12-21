@@ -37,7 +37,9 @@
         data needed for each page before the call to render the page is made. Once we have the
         data we can then pass it to the page as a parameter in the render_template() function. In
         this project, we follow a convention of passing all data to the page in the form of a
-        json-compatible string.
+        json-compatible string. This makes it easy to pass even complex data as a single parameter,
+        since we can simply deserialize the json string on the "page rendering" side and again have
+        access to all of our data in a dictionary-like structure familiar to python/flask programmers.
       </p>
       <p>For example, here is the code for the default earthquakes route:</p>
       <pre>
@@ -67,9 +69,7 @@
         working together, are decoupled or kept independent from each other. With almost no
         changes at all in the code, it is possible to switch out datasources quite easily - as
         long as the data access modules provide a get_earthquake_count_by_years() function for access
-        to the data. To makes this requirement explicit, we could create an interface and require
-        the data_access modules to implement the interface (which in this example would mean
-        implementing the get_earthquake_count_by_years() method)
+        to the data.
       </p>
     </div>
   </div>

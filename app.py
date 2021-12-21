@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 import json
 import requests
 import os
+
+# each of the following modules is an example of a
+# using a different kind of data access in flask.
 import data_access.data_access_postgres as db_postgres
 import data_access.data_access_sqlite as db_sqlite
 import data_access.data_access_mongodb as db_mongodb
@@ -11,24 +14,21 @@ import data_access.data_access_csv_remote as db_csv_remote
 import data_access.data_access_json_local as db_json_local
 import data_access.data_access_json_remote as db_json_remote
 
-# -----
-# Setup
-# -----
-
 # load any additional environment variables defined in a .env file
+# for reference, my .env file is in the root folder with this content:
+# FLASK_ENV=development
+# MONGO_URI=mongodb://david:windy-chance@192.168.0.186:27017/calico
+# DATABASE_URL=postgres://max:fiddle-rain-stones@192.168.0.186:5432/moondust
 load_dotenv()
-
-IS_PRODUCTION_ENVIRONMENT = False
 
 if('DATABASE_URL') in os.environ:
     # at Heroku there is a database url environment variable
-    # with connection information for postgres. Otherwise,
-    # assumption is we are running locally for development
-    IS_PRODUCTION_ENVIRONMENT = True
-
-if IS_PRODUCTION_ENVIRONMENT:
+    # with connection information for postgres. If this exists,
+    # we are running on the Heroku platform and our base url
+    # will match the application url for production
     API_BASE_URL = "https://hidden-stream-21468.herokuapp.com/"
 else:
+    # Otherwise, we are running locally on a development machine
     API_BASE_URL = "http://localhost:5000/"
 
 # ------------------
@@ -55,9 +55,6 @@ def earthquakes_postgres_1():
 def earthquakes_postgres_2():
     # Calling the api as if it were an external api,
     # even though it is really in the same project.
-    # by default the internal api uses postgres but in
-    # principle the api can use any datasource with
-    # the same strategies applied here for other routes.
     xs = []
     ys = []
     resource = "api/earthquakes"
@@ -106,7 +103,7 @@ def earthquakes_csv_2():
 def earthquakes_csv_3():
     return render_template(
         'earthquakesFetchWithD3.html',
-        view_data={'uri': db_csv_remote.uri,
+        view_data={'uri': db_csv_remote.url,
          'data_source': 'csv-fetch'})
 
 @app.route("/earthquakes/json/1")
@@ -129,7 +126,7 @@ def earthquakes_json_2():
 def earthquakes_json_3():
     return render_template(
         'earthquakesFetchWithD3.html',
-        view_data={'uri': db_json_remote.uri,
+        view_data={'uri': db_json_remote.url,
          'data_source': 'json-fetch'})
 
 @app.route("/earthquakes")
