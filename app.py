@@ -162,12 +162,15 @@ def route_summaries():
         'postgres / api':
         {
             'url': 'earthquakes/postgres/2',
-            'description': ('Route with a postgres database datasource, '
-            'but routed via an api route served from the same project. '
-            'Note that if you already have the database accessible in '
-            'the same project you do not really an api to access the data. '
-            'This setup might be useful if you intend to later move '
-            'the database out of the project')
+            'description': ('Route with an api datasource. '
+            'Usually in real life the api will be an entirely separate project. '
+            'Here, for the the purposes of demonstration, the api in the same project. '
+            'For an example of a project that uses our api purely as a client, '
+            'a sister project <a href="https://safe-wildwood-81428.herokuapp.com/">'
+            'https://safe-wildwood-81428.herokuapp.com</a> has been '
+            'created, which calls this same api and builds the same chart - the '
+            'data is from our postgres database here but otherwise it is a '
+            'completely separate project.')
         },
         'mongodb':
         {
