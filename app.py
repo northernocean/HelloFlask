@@ -36,6 +36,19 @@ else:
 # ------------------
 app = Flask(__name__)
 
+# ----------
+# API Routes
+# ----------
+@app.route("/api/earthquakes")
+def api_earthquakes():
+    # in this case, the api is has a postgres
+    # backend. For an example of a site using the api,
+    # see our sister application https://safe-wildwood-81428.herokuapp.com
+    # which calls out to this api but otherwise is an independent project.
+    xs, ys = db_postgres.get_earthquake_count_by_years()
+    results_dict = {"xs": xs, "ys": ys}
+    return json.dumps(results_dict)
+
 # -----------
 # Page Routes
 # -----------
@@ -101,9 +114,10 @@ def earthquakes_csv_2():
 
 @app.route("/earthquakes/csv/3")
 def earthquakes_csv_3():
+    db = db_csv_remote
     return render_template(
         'earthquakesFetchWithD3.html',
-        view_data={'uri': db_csv_remote.url,
+        view_data={'uri': db.url,
          'data_source': 'csv-fetch'})
 
 @app.route("/earthquakes/json/1")
@@ -135,15 +149,6 @@ def earthquakes():
     xs, ys = db.get_earthquake_count_by_years()
     view_data = {"xs": xs, "ys": ys, "data_source": db.DATA_SOURCE}
     return render_template('earthquakes.html', view_data=view_data)
-
-# ----------
-# API Routes
-# ----------
-@app.route("/api/earthquakes")
-def api_earthquakes():
-    xs, ys = db_postgres.get_earthquake_count_by_years()
-    results_dict = {"xs": xs, "ys": ys}
-    return json.dumps(results_dict)
 
 # -----
 # Other
