@@ -162,7 +162,11 @@ def route_summaries():
             'In this example, if the project runs locally, a '
             'connection is created to a local postgres server, '
             'and if the project is deployed to heroku, a '
-            'connection is opened to a heroku-hosted postgres server.')
+            'connection is opened to a heroku-hosted postgres server. '
+            'Check the <a style="color: inherit;" href="https://devcenter.heroku.com/articles/heroku-postgresql">'
+            'Heroku docs</a> for more information '
+            'on setting up Postgres both on Heroku and locally for '
+            'development and testing.')
         },
         'postgres / api':
         {
@@ -171,23 +175,24 @@ def route_summaries():
             'Usually in real life the api will be an entirely separate project. '
             'Here, for the the purposes of demonstration, the api in the same project. '
             'For an example of a project that uses our api purely as a client, '
-            'a sister project <a href="https://safe-wildwood-81428.herokuapp.com/">'
+            'a sister project <a style="color: inherit;" href="https://safe-wildwood-81428.herokuapp.com/">'
             'https://safe-wildwood-81428.herokuapp.com</a> has been '
             'created, which calls this same api and builds the same chart - the '
             'data is from our postgres database here but otherwise it is a '
-            'completely separate project.')
+            'completely separate project. '
+            'Check the <a style="color: inherit;" href="https://devcenter.heroku.com/articles/heroku-postgresql">'
+            'Heroku docs</a> for more information '
+            'on setting up Postgres both on Heroku and locally for '
+            'development and testing.')
         },
         'mongodb':
         {
             'url':'earthquakes/mongodb/1',
-            'description': ('Route using a mongodb data source. In this project, '
-            'we have setup a local (development) mongodb datasource. '
-            'This link will not work in production - the main reason is that '
-            'our cloud mongodb deployment whitelists access by IP address '
-            'but at heroku we do not have a static IP address and obtaining one '
-            'involves a credit card and (potentially) billing charges. '
-            'However, our development setup does allow use of either a local '
-            'mongo server or a cloud mongo server, and plenty of other options are also available.')
+            'description': ('Route using a mongodb data source. '
+            'As with Postgres, this example application uses a local '
+            'mongo server for development and connects to a cloud mongo server. '
+            'when deployed to Heroku.  The cloud mongo server '
+            'uses a free account on the Atlas mongodb platform. ')
         },
         'sqlite':
         {
