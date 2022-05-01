@@ -41,8 +41,7 @@ app = Flask(__name__)
 # ----------
 @app.route("/api/earthquakes")
 def api_earthquakes():
-    # in this case, the api is has a postgres
-    # backend. For an example of a site using the api,
+    # For an example of a site using the api,
     # see our sister application https://safe-wildwood-81428.herokuapp.com
     # which calls out to this api but otherwise is an independent project.
     xs, ys = db_postgres.get_earthquake_count_by_years()
