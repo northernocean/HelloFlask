@@ -7,3 +7,5 @@ Deployed Website:
 
 Dataset(s) used:
 [earthquake data](https://www.kaggle.com/usgs/earthquake-database)
+
+![hut](images/sample-hut-400x300.png)
