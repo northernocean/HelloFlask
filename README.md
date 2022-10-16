@@ -8,4 +8,3 @@ Deployed Website:
 Dataset(s) used:
 [earthquake data](https://www.kaggle.com/usgs/earthquake-database)
 
-![hut](https://github.com/northernocean/HelloFlask/blob/1e0ae2c38367dc9931dedd81e085704e056014db/images/sample-hut-400x300.png)
